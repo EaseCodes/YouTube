@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EaseCodes | Upload & Learn</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: #f8fafc;
+      color: #333;
+    }
+
+    header {
+      background: #3b82f6;
+      color: white;
+      padding: 15px 20px;
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 900px;
+      margin: 30px auto;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .upload-box {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input[type="file"] {
+      margin: 10px 0;
+    }
+
+    .note-display {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      min-height: 150px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      border-radius: 10px;
+    }
+
+    .youtube-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        font-size: 1.3rem;
+      }
+      iframe {
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>EaseCodes – Upload Notes & Watch Tutorials</header>
+
+  <div class="container">
+    <div class="upload-box">
+      <h2>📚 Upload Your Study Notes</h2>
+      <input type="file" id="fileInput" accept=".txt,.pdf">
+      <p style="font-size:0.9rem;color:#555;">Supported: Text (.txt) and PDF (.pdf)</p>
+    </div>
+
+    <div class="note-display" id="noteDisplay">
+      📝 Uploaded note content will appear here.
+    </div>
+
+    <div class="youtube-link">
+      <h3>🎥 Related YouTube Video</h3>
+      <p><a href="https://www.youtube.com/@EaseCodes" target="_blank">Visit EaseCodes Channel</a></p>
+    </div>
+  </div>
+
+  <script>
+    const fileInput = document.getElementById("fileInput");
+    const noteDisplay = document.getElementById("noteDisplay");
+
+    fileInput.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const fileType = file.type;
+
+      // === If Text File ===
+      if (fileType === "text/plain") {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          noteDisplay.textContent = e.target.result;
+        };
+        reader.readAsText(file);
+      }
+
+      // === If PDF File ===
+      else if (fileType === "application/pdf") {
+        const fileURL = URL.createObjectURL(file);
+        noteDisplay.innerHTML = `
+          <iframe src="${fileURL}" title="PDF Viewer"></iframe>
+        `;
+      }
+
+      // === Unsupported file ===
+      else {
+        noteDisplay.textContent = "❌ Please upload a .txt or .pdf file only.";
+      }
+    });
+  </script>
+
+</body>
+</html>
